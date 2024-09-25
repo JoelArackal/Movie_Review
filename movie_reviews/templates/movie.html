@@ -1,0 +1,70 @@
+{% extends "layout.html" %}
+{% block content %}
+
+    
+    <div class="media movie-item">
+        <img class="mr-3 title-img" src="{{url_for('static', filename='posters/'+movie.image)}}" alt="Generic placeholder image">
+        <div class="media-body">
+          <h4 class="mt-0">{{movie.title}}</h4>
+          <h6 class="mt-0">Year: {{movie.year}}</h6>
+          <p>{% if movie.review_count>0 %}
+            Rating: <b> {{movie.rating*10}}</b>({{movie.review_count}})
+            {% else %}
+            Not Rated
+            {% endif %}
+          </p>
+
+          <!-- <p>{{request.path}}</p> -->
+          
+        </div>
+      </div>
+      {% if current_user.is_authenticated %}
+      <form action="" method="post">
+        <fieldset class="form-group">
+          <div class="form-group">
+            <label for="description" class="form-control-label">Comment: </label> 
+            <textarea class="form-control form-control-lg" id="comment" name="comment" required></textarea> 
+        </div>
+        
+    </fieldset>
+    <div class="form-group">
+      <input type="submit" value="Submit" class="btn btn-primary">        
+    </div>
+    </form>
+    {% else %}
+    Log In to add review. 
+    <a href="{{ url_for('users.login', next=request.path) }}">Login</a>
+    <br>
+    <br>
+    {% endif %}
+
+
+      {% if reviews %}
+      <h5>Reviews: </h5>
+      {% for review in reviews %}
+      <p>
+        <b>{{review.author.username}}: </b> 
+        {% if review.label=='positive' %}
+        <span class="badge badge-success">{{review.label}}</span>
+        {% else %}
+        <span class="badge badge-danger">{{review.label}}</span>
+        {% endif %}
+        {% if review.author==current_user %}
+        <a href="{{ url_for('movies.delete_review', review_id=review.id)}}"> <svg  xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3" viewBox="0 0 16 16">
+          <path title="Delete" d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5M11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47M8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5"/>
+        </svg></a>
+        {% endif %}
+        <br>
+        {{ review.content }}
+        <br>
+        
+        <!-- <br> -->
+        
+
+      </p>
+      {% endfor %}
+      {% else %}
+      {% endif %}
+
+      
+{% endblock content%}

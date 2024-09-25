@@ -1,0 +1,25 @@
+{% extends "layout.html" %}
+{% block content %}
+    <hr>
+    {% for movie in movies %} 
+     <div class="media movie-item">
+      <a href="{{url_for('movies.movie', movie_id=movie.id)}}">
+        <img class="mr-3 title-img" src="{{url_for('static', filename='posters/'+movie.image)}}" alt="Generic placeholder image">
+        <div class="media-body">
+          <h4 class="mt-0">{{movie.title}}</h4></a>
+          <h6 class="mt-0">Year: {{movie.year}}</h6>
+          <p>
+            {% if movie.review_count>0 %}
+            Rating: <b> {{movie.rating*10}}</b>({{movie.review_count}})
+            {% else %}
+            Not Rated
+            {% endif %}
+          </p>
+          
+        </div>
+      </div>
+    
+    <hr>
+    {% endfor %}
+
+{% endblock content%}
