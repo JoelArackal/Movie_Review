@@ -4,8 +4,8 @@ from movie_reviews.config import Config
 from flask_login import LoginManager
 from flask_bcrypt import Bcrypt
 
-import pymysql
-pymysql.install_as_MySQLdb()
+# import pymysql
+# pymysql.install_as_MySQLdb()
 
 db = SQLAlchemy()
 bcrypt = Bcrypt()
@@ -30,3 +30,5 @@ def create_app(config_object=Config):
     app.register_blueprint(movies)
 
     return app
+
+# docker system prune

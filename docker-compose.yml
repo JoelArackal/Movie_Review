@@ -1,0 +1,12 @@
+version: '3'
+
+services:
+  web:
+    build: .
+    command: ["python", "run.py"]
+    volumes:
+      - .:/app
+    image: app:Movie_review
+    container_name: flask_container
+    ports:
+      - "5001:5001"
